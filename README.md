@@ -3,13 +3,14 @@
 Este projeto implementa um sistema de comunicação segura entre nós, utilizando uma Autoridade Certificadora (CA) para gerenciar as chaves públicas. O sistema garante que as mensagens entre nós sejam encriptadas e apenas o nó destinatário possa descriptografá-las, utilizando um esquema híbrido de criptografia que combina AES para a encriptação de dados e RSA para o intercâmbio seguro das chaves.
 
 ## Funcionamento do Sistema
+![Diagram do sistema](https://imgur.com/CeCY45I.png)
 
 - **Geração de Chaves**: Cada nó gera seu próprio par de chaves RSA (pública e privada) e uma chave AES para encriptação de dados. A chave pública RSA é registrada na CA.
 - **Registro na CA**: Ao registrar-se, o nó envia sua chave pública RSA para a CA. A CA, então, armazena essa chave pública associada ao identificador do nó.
 - **Comunicação Segura**: Quando um nó deseja comunicar-se com outro, solicita à CA a chave pública RSA do destinatário para encriptar a chave AES de sessão, garantindo que apenas o nó destinatário possa descriptografar a mensagem com sua chave privada RSA.
 
-## Topologia de Rede
-
+## Roteamento na Rede
+![Roteamento na rede](https://imgur.com/NaN5cmx.png)
 A topologia da rede é configurada em forma de anel, e o algoritmo de roteamento adotado segue o sentido horário para simplificar a implementação e manter o sistema stateless, evitando complexidade adicional no código dos nós.
 
 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 1 -> ...
@@ -64,3 +65,17 @@ python src/node.py 6
 ```
 
 Os nós agora são capazes de se comunicar de forma segura através da CA, solicitando a chave pública do destinatário para encriptar as mensagens.
+
+## Executando o Projeto com Docker
+
+### Compose up e build
+
+```bash
+docker-compose up --build
+```
+
+### Removendo a Stack do docker
+
+```bash
+docker-compose down
+```
