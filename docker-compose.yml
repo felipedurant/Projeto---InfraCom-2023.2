@@ -1,0 +1,97 @@
+version: '3.8'
+services:
+  ca:
+    build: .
+    command: python ./src/ca.py
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+
+  node1:
+    build: .
+    command: python ./src/node.py 1
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+      - node1_2
+      - node1_6
+    depends_on:
+      - ca
+
+  node2:
+    build: .
+    command: python ./src/node.py 2
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+      - node1_2
+      - node2_3
+    depends_on:
+      - ca
+
+  node3:
+    build: .
+    command: python ./src/node.py 3
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+      - node2_3
+      - node3_4
+    depends_on:
+      - ca
+
+  node4:
+    build: .
+    command: python ./src/node.py 4
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+      - node3_4
+      - node4_5
+    depends_on:
+      - ca
+
+  node5:
+    build: .
+    command: python ./src/node.py 5
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+      - node4_5
+      - node5_6
+    depends_on:
+      - ca
+
+  node6:
+    build: .
+    command: python ./src/node.py 6
+    volumes:
+      - .:/app
+    networks:
+      - ca_network
+      - node5_6
+      - node1_6
+    depends_on:
+      - ca
+
+networks:
+  ca_network:
+    driver: bridge
+  node1_2:
+    driver: bridge
+  node1_6:
+    driver: bridge
+  node2_3:
+    driver: bridge
+  node3_4:
+    driver: bridge
+  node4_5:
+    driver: bridge
+  node5_6:
+    driver: bridge
